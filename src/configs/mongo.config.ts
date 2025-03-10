@@ -1,5 +1,8 @@
 import { TypegooseModuleOptions } from './../../node_modules/nestjs-typegoose/dist/typegoose-options.interface.d';
 import { ConfigService } from '@nestjs/config';
+const getMongoString = (configService: ConfigService) =>
+  configService.get<string>('MONGO_URI') || '';
+const getMongoOptions = () => ({});
 
 export const getMongoConfig = async (
   configService: ConfigService,
@@ -10,31 +13,3 @@ export const getMongoConfig = async (
   };
 };
 
-// const getMongoString = (configService: ConfigService) =>
-//   'mongodb://' +
-//   configService.get('MONGO_LOGIN') +
-//   ':' +
-//   configService.get('MONGO_PASSWORD') +
-//   ':' +
-//   configService.get('MONGO_HOST') +
-//   ':' +
-//   configService.get('MONGO_PORT') +
-//   '/' +
-//   configService.get('MONGO-AUTHDATABASE');
-
-const getMongoOptions = () => ({
-  // useNewUrlParser: true,
-  // useUnifiedTopology: true,
-});
-
-const getMongoString = (configService: ConfigService) =>
-  'mongodb://' +
-  configService.get('MONGO_LOGIN') +
-  ':' +
-  configService.get('MONGO_PASSWORD') +
-  '@' + // добавь @ для разделения логина и хоста
-  configService.get('MONGO_HOST') +
-  ':' +
-  configService.get('MONGO_PORT') +
-  '/' +
-  configService.get('MONGO-AUTHDATABASE');
