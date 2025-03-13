@@ -1,3 +1,4 @@
+import { TelegramService } from './../telegram/telegram.service';
 import {
   Body,
   Controller,
@@ -19,12 +20,28 @@ import { UserEmail } from '../decorators/user-email.decorator';
 
 @Controller('review')
 export class ReviewController {
-  constructor(private readonly reviewService: ReviewService) {}
+  constructor(
+    private readonly reviewService: ReviewService,
+    private readonly TelegramService: TelegramService,
+  ) {}
   @UsePipes(new ValidationPipe())
   @Post('create')
   async create(@Body() dto: CreateReviewDto) {
     return this.reviewService.create(dto);
   }
+
+  @UsePipes(new ValidationPipe())
+  @Post('notify')
+  async notify(@Body() dto: CreateReviewDto) {
+    const message = `Name ${dto.name}\n
+    + 'Title: '${dto.title}\n
+    + 'Description: '${dto.descriptions}\n
+    + 'Rating: '${dto.rating}\n
+    + 'Product Id: '${dto.productId}
+    `;
+    return this.TelegramService.sendMessage(message);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async delete(@Param('id') id: string) {
