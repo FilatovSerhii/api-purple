@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { InjectModel } from 'nestjs-typegoose';
 import { CreateProductDto } from './dto/create-product.dto';
+import { ObjectId } from 'mongodb';
 import { ReviewModel } from 'src/review/review.model';
 import { FindProductDTO } from './dto/find-product.dto';
 
@@ -50,7 +51,7 @@ export class ProductService {
         },
         {
           $lookup: {
-            from: 'reviews',
+            from: 'Review',
             localField: '_id',
             foreignField: 'productId',
             as: 'reviews',
