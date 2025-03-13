@@ -3,6 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { ModelType } from '@typegoose/typegoose/lib/types';
 import { InjectModel } from 'nestjs-typegoose';
 import { CreateProductDto } from './dto/create-product.dto';
+import { ReviewModel } from 'src/review/review.model';
+import { FindProductDTO } from './dto/find-product.dto';
 
 @Injectable()
 export class ProductService {
@@ -13,6 +15,7 @@ export class ProductService {
   ) {}
 
   async create(dto: CreateProductDto) {
+    console.log('dto create', dto);
     return this.productModel.create(dto);
   }
 
@@ -25,6 +28,45 @@ export class ProductService {
   }
 
   async updateById(id: string, dto: CreateProductDto) {
-    return this.productModel.findByIdAndUpdate(id, dto, {new: true}).exec();
+    return this.productModel.findByIdAndUpdate(id, dto, { new: true }).exec();
+  }
+
+  async findWithReviews(dto: FindProductDTO) {
+    console.log('dto service', dto);
+    return this.productModel
+      .aggregate([
+        {
+          $match: {
+            categories: dto.category,
+          },
+        },
+        {
+          $sort: {
+            _id: 1,
+          },
+        },
+        {
+          $limit: dto.limit,
+        },
+        {
+          $lookup: {
+            from: 'reviews',
+            localField: '_id',
+            foreignField: 'productId',
+            as: 'reviews',
+          },
+        },
+        {
+          $addFields: {
+            reviewCount: { $size: '$reviews' },
+            reviewAvg: { $avg: '$reviews.rating' },
+          },
+        },
+      ])
+      .exec() as unknown as (ProductModel & {
+      review: ReviewModel[];
+      reviewCount: number;
+      reviewAvg: number;
+    })[];
   }
 }
