@@ -55,6 +55,7 @@ export class ProductService {
             localField: '_id',
             foreignField: 'productId',
             as: 'reviews',
+            pipeline: [{ $sort: { createdAt: -1 } }],
           },
         },
         {
@@ -65,9 +66,19 @@ export class ProductService {
         },
       ])
       .exec() as unknown as (ProductModel & {
-      review: ReviewModel[];
+      // review: ReviewModel[];
       reviewCount: number;
       reviewAvg: number;
+      // reviews: {
+      //   $function: {
+      //     body: `function (review){
+      //       review.sort((a,b)=>new Date(b.createdAt) - new Date(a.createdAt))
+      //       return review;
+      //     }`;
+      //     args: ['$reviews'];
+      //     lang: 'js';
+      //   };
+      // };
     })[];
   }
 }
