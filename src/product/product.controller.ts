@@ -12,7 +12,6 @@ import {
   UsePipes,
   UseGuards,
 } from '@nestjs/common';
-import { ProductModel } from './product.model/product.model';
 import { FindProductDTO } from './dto/find-product.dto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductService } from './product.service';
