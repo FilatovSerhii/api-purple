@@ -1,8 +1,16 @@
 FROM node:20-alpine
+
 WORKDIR /opt/app
-ADD package.json package.json
+
+COPY package*.json ./
+
 RUN npm install
-ADD . .
+
+COPY . .
+
 RUN npm run build
+
+# Удаляем dev-зависимости
 RUN npm prune --production
+
 CMD ["node", "./dist/main.js"]
