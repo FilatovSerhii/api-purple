@@ -11,6 +11,7 @@ import { getMongoConfig } from './configs/mongo.config';
 import { TelegramModule } from './telegram/telegram.module';
 import { getTelegramConfig } from './configs/telegram.config';
 import { FilesModule } from './files/files.module';
+// import { HhModule } from './hh/hh.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { FilesModule } from './files/files.module';
       useFactory: getTelegramConfig,
     }),
     FilesModule,
+    // HhModule,
   ],
   controllers: [AppController],
   providers: [AppService],
