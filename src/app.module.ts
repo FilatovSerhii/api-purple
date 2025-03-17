@@ -11,10 +11,12 @@ import { getMongoConfig } from './configs/mongo.config';
 import { TelegramModule } from './telegram/telegram.module';
 import { getTelegramConfig } from './configs/telegram.config';
 import { FilesModule } from './files/files.module';
+import { ScheduleModule } from '@nestjs/schedule';
 // import { HhModule } from './hh/hh.module';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot(),
     TypegooseModule.forRootAsync({
       imports: [ConfigModule],

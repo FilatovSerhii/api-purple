@@ -18,6 +18,7 @@ import { REVIEW_NOT_FOUND } from './review.constants';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard';
 import { UserEmail } from '../decorators/user-email.decorator';
 import { IdValidationPipe } from 'src/pipes/ad-validation.pipe';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Controller('review')
 export class ReviewController {
@@ -31,6 +32,7 @@ export class ReviewController {
     return this.reviewService.create(dto);
   }
 
+  // @Cron(CronExpression.EVERY_DAY_AT_6PM, { name: 'crone' })
   @UsePipes(new ValidationPipe())
   @Post('notify')
   async notify(@Body() dto: CreateReviewDto) {

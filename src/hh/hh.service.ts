@@ -2,9 +2,9 @@
 // import { Injectable, Logger } from '@nestjs/common';
 // import { ConfigService } from '@nestjs/config';
 // import { lastValueFrom } from 'rxjs';
-// import { HhData } from 'src/top-page/top-page.model';
 // import { API_URL, CLUSTER_FIND_ERROR, SALARY_CLUSTER_ID } from './hh.constants';
 // import { HhResponse } from './hh.models';
+// import { HhData } from 'src/top-page/top-page.model/top-page.model';
 
 // @Injectable()
 // export class HhService {
@@ -19,7 +19,7 @@
 
 //   async getData(text: string) {
 //     try {
-//       const { data } = await lastValueFrom(
+//       const { data }:any = await lastValueFrom(
 //         this.httpService.get<HhResponse>(API_URL.vacancies, {
 //           params: {
 //             text,
